@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/npp_poc
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+axon:
+
+  axonserver:
+    enabled: false
+
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+
+  eventhandling:
+    processors:
+      default:
+        mode: tracking
+
+
+logging:
+  level:
+    org.axonframework: INFO
