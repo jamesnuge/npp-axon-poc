@@ -12,9 +12,18 @@ class PaymentController(
 ) {
 
     @PostMapping
-    fun createPayment(@RequestParam amount: Long): String {
+    fun createPayment(@RequestBody request: PaymentRequest): String {
         val paymentId = UUID.randomUUID()
-        commandGateway.sendAndWait<Void>(CreateCustomerPayment(paymentId, amount))
+        commandGateway.sendAndWait<Void>(request.toCommand(paymentId));
         return "Payment created with ID: $paymentId"
     }
+
+    private fun PaymentRequest.toCommand(paymentId: UUID): CreateCustomerPayment = CreateCustomerPayment(
+        paymentId = paymentId,
+        customerAccountId = payerId,
+        payeeId = payeeId,
+        amount = amount
+    )
 }
+
+data class PaymentRequest(val payeeId: String, val amount: Long, val payerId: String)
