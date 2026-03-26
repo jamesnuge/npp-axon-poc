@@ -54,17 +54,6 @@ open class AxonJdbcConfig {
         return JdbcTokenStore.builder()
             .connectionProvider(connectionProvider)
             .serializer(serializer)
-            .schema(
-                TokenSchema.builder()
-                    .setTokenTable("token_entry")
-                    .setProcessorNameColumn("processor_name")
-                    .setSegmentColumn("segment")
-                    .setTokenColumn("token")
-                    .setTokenTypeColumn("token_type")
-                    .setTimestampColumn("timestamp")
-                    .setOwnerColumn("owner")
-                    .build()
-            )
             .build()
     }
 
@@ -79,20 +68,6 @@ open class AxonJdbcConfig {
             .transactionManager(transactionManager)
             .snapshotSerializer(serializer)
             .eventSerializer(serializer)
-            .schema(
-                EventSchema.builder()
-                    .eventTable("domain_event_entry")
-                    .globalIndexColumn("global_index")
-                    .eventIdentifierColumn("event_identifier")
-                    .aggregateIdentifierColumn("aggregate_identifier")
-                    .sequenceNumberColumn("sequence_number")
-                    .timestampColumn("time_stamp")
-                    .metaDataColumn("meta_data")
-                    .snapshotTable("snapshot_event_entry")
-                    .payloadTypeColumn("payload_type")
-                    .payloadRevisionColumn("payload_revision")
-                    .build()
-            )
             .build()
     }
 

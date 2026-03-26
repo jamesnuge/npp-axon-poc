@@ -6,51 +6,51 @@
 -- SEQUENCES
 -- =========================================================
 
-CREATE SEQUENCE IF NOT EXISTS domain_event_entry_seq;
+CREATE SEQUENCE IF NOT EXISTS domainevententryseq;
 
 -- =========================================================
 -- EVENT STORE
 -- =========================================================
 
-CREATE TABLE IF NOT EXISTS domain_event_entry (
-    global_index BIGINT NOT NULL
-    DEFAULT nextval('domain_event_entry_seq'),
-    event_identifier VARCHAR(255) NOT NULL,
-    aggregate_identifier VARCHAR(255) NOT NULL,
-    sequence_number BIGINT NOT NULL,
+CREATE TABLE IF NOT EXISTS domainevententry (
+    globalindex BIGINT NOT NULL
+    DEFAULT nextval('domainevententryseq'),
+    eventidentifier VARCHAR(255) NOT NULL,
+    aggregateidentifier VARCHAR(255) NOT NULL,
+    sequencenumber BIGINT NOT NULL,
     type VARCHAR(255),
     revision VARCHAR(255),
-    payload_type VARCHAR(255) NOT NULL,
-    payload_revision VARCHAR(255),
+    payloadtype VARCHAR(255) NOT NULL,
+    payloadrevision VARCHAR(255),
     payload BYTEA NOT NULL,
-    meta_data BYTEA,
-    time_stamp VARCHAR(255) NOT NULL,
-    PRIMARY KEY (global_index)
+    metadata BYTEA,
+    timestamp VARCHAR(255) NOT NULL,
+    PRIMARY KEY (globalindex)
     );
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_aggregate_seq
-    ON domain_event_entry (aggregate_identifier, sequence_number);
+    ON domainevententry (aggregateidentifier, sequencenumber);
 
 CREATE INDEX IF NOT EXISTS idx_global_index
-    ON domain_event_entry (global_index);
+    ON domainevententry (globalindex);
 
 
 -- =========================================================
 -- SNAPSHOT STORE
 -- =========================================================
 
-CREATE TABLE IF NOT EXISTS snapshot_event_entry (
-    aggregate_identifier VARCHAR(255) NOT NULL,
-    sequence_number BIGINT NOT NULL,
+CREATE TABLE IF NOT EXISTS snapshotevententry (
+    aggregateidentifier VARCHAR(255) NOT NULL,
+    sequencenumber BIGINT NOT NULL,
     type VARCHAR(255) NOT NULL,
-    event_type VARCHAR(255) NOT NULL,
+    eventtype VARCHAR(255) NOT NULL,
     revision VARCHAR(255),
-    payload_type VARCHAR(255) NOT NULL,
-    payload_revision VARCHAR(255),
+    payloadtype VARCHAR(255) NOT NULL,
+    payloadrevision VARCHAR(255),
     payload BYTEA NOT NULL,
-    meta_data BYTEA,
-    time_stamp VARCHAR(255) NOT NULL,
-    PRIMARY KEY (aggregate_identifier, sequence_number)
+    metadata BYTEA,
+    timestamp VARCHAR(255) NOT NULL,
+    PRIMARY KEY (aggregateidentifier, sequencenumber)
     );
 
 
@@ -58,14 +58,14 @@ CREATE TABLE IF NOT EXISTS snapshot_event_entry (
 -- TOKEN STORE
 -- =========================================================
 
-CREATE TABLE IF NOT EXISTS token_entry (
-    processor_name VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS tokenentry (
+    processorname VARCHAR(255) NOT NULL,
     segment INTEGER NOT NULL,
     owner VARCHAR(255),
     timestamp VARCHAR(255) NOT NULL,
     token BYTEA,
-    token_type VARCHAR(255),
-    PRIMARY KEY (processor_name, segment)
+    tokentype VARCHAR(255),
+    PRIMARY KEY (processorname, segment)
     );
 
 
