@@ -6,7 +6,10 @@ import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle.apply
 import org.axonframework.spring.stereotype.Aggregate
+import xyz.jamesnuge.npp.payment.command.ConfirmReservationCommand
+import xyz.jamesnuge.npp.payment.command.ConfirmValidationCommand
 import xyz.jamesnuge.npp.payment.command.CreateCustomerPayment
+import xyz.jamesnuge.npp.payment.event.PaymentValidatedEvent
 import java.math.BigDecimal
 import java.util.*
 
@@ -39,6 +42,24 @@ class PaymentAggregate() {
         }
     }
 
+    @CommandHandler
+    fun handle(command: ConfirmValidationCommand) {
+        with(command) {
+            if (type == PaymentType.Debit) {
+                apply(
+                    PaymentValidatedEvent(paymentId, amount, payeeId)
+                )
+            } else {
+                // TODO: publish funds reserved event
+            }
+        }
+    }
+
+    @CommandHandler
+    fun handle(command: ConfirmReservationCommand) {
+        
+    }
+
     @EventSourcingHandler
     fun on(event: CustomerPaymentInitiatedEvent) {
         this.paymentId = event.paymentId
@@ -49,8 +70,13 @@ class PaymentAggregate() {
         this.payerId = event.payerId
         this.payeeId = event.payeeId
     }
+
+    @EventSourcingHandler
+    fun on(event: PaymentValidatedEvent) {
+        this.state = State.Validated
+    }
 }
 
 enum class PaymentType { Debit, Credit }
 enum class Origin { Internal, External }
-enum class State { Initiated }
+enum class State { Initiated, Validated, Reserved }

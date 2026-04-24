@@ -1,6 +1,5 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/npp_poc?stringtype=unspecified&binaryTransfer=false
     url: jdbc:postgresql://localhost:5432/npp_poc
     username: postgres
     password: postgres
@@ -20,8 +19,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate.hbm2ddl.auto: none
 
 axon:
 

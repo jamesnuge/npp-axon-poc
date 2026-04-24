@@ -3,14 +3,14 @@ plugins {
     kotlin("plugin.spring") version "1.9.24"
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
-    kotlin("plugin.noarg") version "2.3.20"
+    kotlin("plugin.noarg") version "1.9.24"
 }
 
 noArg {
     annotation("jakarta.persistence.Entity")
 }
 
-group = "com.example"
+group = "xyz.jamesnuge"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -38,6 +38,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation(kotlin("stdlib"))
 }
 
 tasks.withType<Test> {
